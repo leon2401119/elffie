@@ -1,5 +1,6 @@
 import sys
 import os
+from elf import *
 
 def get_raw_bytes(filename):
     with open(filename,'rb') as f:
@@ -7,13 +8,21 @@ def get_raw_bytes(filename):
 
     return raw_bytes
 
-
 def main():
     if len(sys.argv) != 2:
         print('Supply one and only one executable to inspect')
         sys.exit()
 
     raw_bytes = get_raw_bytes(sys.argv[1])
+
+    '''
+        len(b'\x7f') = 1
+        len(b'0x7f') = 4
+    '''
+    if raw_bytes[:4] == b'\x7f' + bytes('ELF','ascii'):
+        elf = ELF()
+        elf.dissect(raw_bytes)
+        elf.summarize()
 
 
 if __name__ == '__main__':
