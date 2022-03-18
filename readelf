@@ -24,7 +24,7 @@ def main():
     if raw_bytes[:4] == b'\x7f' + bytes('ELF','ascii'):
         elf = ELF()
         elf.dissect(raw_bytes)
-        elf.summarize()
+        #elf.summarize()
 
     else:
         print('Not an ELF')

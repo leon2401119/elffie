@@ -1,5 +1,3 @@
-from enum import Enum
-
 ELF_BIT_FORMAT = {
     1 : '32-bit',
     2 : '64-bit'
