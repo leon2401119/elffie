@@ -49,8 +49,11 @@ class pystream:
         self.__cursor = 0
         try:
             with open(path,'rb') as f:
+                self.__path = path
                 self.__bytearr = f.read()
         except FileNotFoundError:
+            print(f'File {path} cannot be found.')
+            self.__path = None
             self.__bytearr = []
 
     def save(self,path):
@@ -62,6 +65,9 @@ class pystream:
 
     def getpos(self):
         return self.__cursor
+
+    def getpath(self):
+        return self.__path
 
     def read(self,length,offset=None,raw=False):
         endianness = 2 if raw else self.endianness
