@@ -3,6 +3,7 @@
 import sys
 import os
 from ent import *
+from dics import *
 
 def main():
     if len(sys.argv) != 2:
@@ -10,7 +11,48 @@ def main():
         sys.exit()
 
     elf = ELF(sys.argv[1])
-    print(elf)
+    summarize(elf)
+    display_sections(elf)
+
+def summarize(elf):
+    print('Basics')
+    print(f'\tBitness      : ' + ELF_BIT_FORMAT[elf.eh.ident.__dict__['class']])
+    print(f'\tEndianness   : ' + ELF_ENDIANNESS[elf.eh.ident.__dict__['data']])
+    print(f'\tOS           : ' + ELF_OS_ABI[elf.eh.ident.__dict__['osabi']])
+    print(f'\tFile Type    : ' + ELF_FILE_TYPE[elf.eh.type])
+    print(f'\tISA          : ' + ELF_ISA[elf.eh.machine])
+    print(f'\tSections     : ' + f'{elf.eh.shnum}')
+    print(f'\tSegments     : ' + f'{elf.eh.phnum}')
+    print()
+
+def display_sections(elf):
+    print('Sections')
+
+    shstrtab_idx    = elf.eh.shstrndx
+    shstrtab_start  = elf.shs[shstrtab_idx].offset
+    shstrtab_size   = elf.shs[shstrtab_idx].size
+    shstrtab_bytes  = elf.pys.read(shstrtab_size, shstrtab_start, raw=True)
+
+    print(f'\tindex\tname\t\t\ttype\tflags\taddr\toffset\tsize')
+
+    for idx, sh in enumerate(elf.shs):
+        section_name, cursor = b'', sh.name
+        while True:
+            ch = shstrtab_bytes[cursor]
+            if ch != 0:
+                section_name += ch.to_bytes(length=1,byteorder='big')
+                cursor += 1
+            else:
+                break
+        section_name = section_name.decode('ascii')
+
+        print(f'\t{idx}', end='')
+
+        if len(section_name):
+            print(f'\t{section_name}')
+        else:
+            print(f'\t(null)')
+
 
 if __name__ == '__main__':
     main()

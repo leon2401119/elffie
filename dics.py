@@ -9,31 +9,34 @@ ELF_ENDIANNESS = {
 }
 
 ELF_OS_ABI = {
-    0 : 'System V',
-    2 : 'NetBSD',
-    3 : 'Linux',
-    6 : 'Solaris',
-    9 : 'FreeBSD'
+    0x0 : 'System V',
+    0x2 : 'NetBSD',
+    0x3 : 'Linux',
+    0x6 : 'Solaris',
+    0x9 : 'FreeBSD',
+    0xC : 'OpenBSD'
 }
 
 ELF_FILE_TYPE = {
-    0 : 'Unknown',
-    1 : 'Relocatable',
-    2 : 'Executable',
-    3 : 'Shared',
-    4 : 'Core Dump'
+    0x0 : 'Unknown',
+    0x1 : 'Relocatable',
+    0x2 : 'Executable',
+    0x3 : 'Shared',
+    0x4 : 'Core Dump'
 }
 
 ELF_ISA = {
     0x00 : 'Unknown',
     0x02 : 'SPARC',
-    0x03 : 'x86',
-    0x04 : 'Motorola 68000',
-    0x05 : 'Motorola 88000',
+    0x03 : 'x86 (i386)',
+    0x04 : 'Motorola M68k',
+    0x05 : 'Motorola M88k',
     0x08 : 'MIPS',
-    0x28 : 'Aarch32',
+    0x14 : 'PowerPC',
+    0x15 : 'PowerPC (64-bit)',
+    0x28 : 'ARM (aarch32)',
     0x32 : 'IA-64',
-    0x3E : 'x86-64',
-    0xB7 : 'Aarch64',
+    0x3E : 'x86-64 (amd-64)',
+    0xB7 : 'ARM (aarch64)',
     0xF3 : 'RISC-V'
 }
